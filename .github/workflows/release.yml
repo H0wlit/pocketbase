@@ -23,7 +23,7 @@ jobs:
         run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
       - name: Build and Push Docker Image
         run: |
-          IMG=ghcr.io/${{ github.repository }}
+          IMG=ghcr.io/h0wlit/pocketbase
           docker build --build-arg NPM_TOKEN=${{ secrets.GH_TOKEN }} \
             --tag $IMG:${{ env.version }} \
             --tag $IMG:${{ env.version_major }}.${{ env.version_minor }}.latest \
