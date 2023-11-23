@@ -30,3 +30,31 @@ and then you can run step 3. of Installation to run the container
 
 # Using the image in a Docker Compose ```compose.yml``` file.
 
+For this I would recommend doing something like:
+```
+version: "3.7"
+services:
+
+  pocketbase:
+    image: h0wlit/pocketbase:latest
+    container_name: pocketbase
+    restart: unless-stopped
+    command:
+      - --encryptionEnv #optional
+      - ENCRYPTION #optional
+    environment:
+      ENCRYPTION: example #optional
+    ports:
+      - "8090:8090"
+    volumes:
+      - /path/to/data:/pb_data
+      - /path/to/public:/pb_public #optional
+    healthcheck:
+      #optional (recommended) since v0.10.0
+      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+```
+which is also implemented in the #app repo
